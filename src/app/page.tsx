@@ -167,10 +167,6 @@ export default function Home() {
     (student) => student.isPresent
   ).length;
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
   const handleEditName = (student: Student) => {
     setEditingStudentId(student.id);
     setEditingName(student.name);
@@ -211,7 +207,7 @@ export default function Home() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [editingStudentId]);
+  }, [editingStudentId, handleClickOutside]);
 
   return (
     <>
@@ -328,31 +324,22 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex gap-4">
                   <button
                     onClick={startShuffling}
-                    disabled={students.length < 2 || isShuffling}
-                    className={`flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                      isShuffling
-                        ? "bg-red-600 hover:bg-red-700 text-white"
-                        : "bg-blue-600 hover:bg-blue-700 text-white"
-                    } ${
-                      students.length < 2
-                        ? "opacity-50 cursor-not-allowed"
-                        : "cursor-pointer"
-                    }`}
+                    disabled={isShuffling}
+                    className="flex-1 px-4 md:px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
                   >
-                    {isShuffling ? (
-                      <>
-                        <Square className="w-4 h-4" />
-                        Stop
-                      </>
-                    ) : (
-                      <>
-                        <Play className="w-4 h-4" />
-                        Start Shuffling
-                      </>
-                    )}
+                    <Play className="w-5 h-5" />
+                    Start Shuffling
+                  </button>
+                  <button
+                    onClick={stopShuffling}
+                    disabled={!isShuffling}
+                    className="flex-1 px-4 md:px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Square className="w-5 h-5" />
+                    Stop
                   </button>
                 </div>
               </div>
